@@ -1,0 +1,36 @@
+﻿@model IndexModel
+@inject Microsoft.Extensions.Options.IOptions<CryptoEngine.Secrets> config
+@{
+    ViewData["Title"] = "Home Page";
+    var values = "name=Khalid&number=57";
+    var secret = CryptoEngine.Encrypt(values, config.Value.Key);
+    var url = Url.Action("IndexPost", new {secret});
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <p>Click this link to transmit secret values via Querystring</p>
+    <form action="@url" method="POST">
+        <p>@url</p>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+@if (Model != null)
+{
+    <section style="margin-top: 1em">
+        <div class="text-center">
+            <h2>Secrets</h2>
+            <div>
+                <label asp-for="Name"></label>
+                @Model.Name
+            </div>
+            <div>
+                <label asp-for="Number"></label>
+                @Model.Number
+            </div>
+        </div>
+    </section>
+}
